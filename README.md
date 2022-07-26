@@ -10,7 +10,7 @@ rabbitmq 实战练习
 
 #### 安装教程
 
-1. git clone https://gitee.com/mikehub/mq-test.git
+1. composer create-project mikehub/mq-test
 
 #### 使用说明
 
