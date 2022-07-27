@@ -1,7 +1,7 @@
 <?php
 
 /**
- *  初始化 交换机、队列、队列bing交换机
+ *  删除交换机、队列
  */
 
 $connConfig = [
@@ -82,8 +82,10 @@ $config = [
     ]
 ];
 
-echo '初始化交换机、队列、绑定进行中...' .PHP_EOL;
 
+
+
+echo '删除交换机、队列进行中...' .PHP_EOL;
 try {
     // 连接
     $mqConn = new AMQPConnection($connConfig);
@@ -92,38 +94,26 @@ try {
     // 通道
     $mqChannel = new AMQPChannel($mqConn);
 
-    // 开始循环创建交换机和队列，绑定
     foreach ($config as $exchangeType => $item) {
         foreach ($item as $exchange) {
-
-            // 创建交换机
-            $mqExchange = new AMQPExchange($mqChannel);
-            $mqExchange->setName($exchange['exchangeName']);
-            $mqExchange->setType($exchangeType);
-            $mqExchange->setFlags($exchange['exchangeFlag']);
-            $mqExchange->declareExchange();
-
-            echo '创建交换机：' . $exchange['exchangeName'] . ' 完成✅' . PHP_EOL;
-
-            // 创建队列、绑定
             foreach ($exchange['queue'] as $queue) {
 
-                // 创建队列
+                // 删除队列
                 $mqQueue = new AMQPQueue($mqChannel);
                 $mqQueue->setName($queue['queueName']);
-                $mqQueue->setFlags($queue['queueFlag']);
-                $mqQueue->declareQueue();
-
-                // 队列绑定交换机
-                $mqQueue->bind($exchange['exchangeName'], $queue['routingKey']);
-
-                echo '创建队列：' . $queue['queueName'] . ' 完成✅' . PHP_EOL;
+                $mqQueue->delete();
+                echo '删除队列：' . $queue['queueName'] . ' 完成✅' . PHP_EOL;
             }
+
+            // 删除交换机
+            $mqExchange = new AMQPExchange($mqChannel);
+            $mqExchange->setName($exchange['exchangeName']);
+            $mqExchange->delete();
+            echo '删除交换机：' . $exchange['exchangeName'] . ' 完成✅' . PHP_EOL;
         }
     }
 
-    echo '初始化交换机、队列、绑定完成。';
-
+    echo '交换机、队列、已清空✅';
     $mqConn->disconnect();
 }catch (Exception $e){
     exit($e->getMessage());
