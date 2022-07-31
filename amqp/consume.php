@@ -12,6 +12,8 @@ $connConfig = [
     'vhost' => '',
     'login' => '',
     'password' => '',
+    // 心跳检测
+    'heartbeat' => 60
 ];
 
 try {
