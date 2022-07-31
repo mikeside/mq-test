@@ -32,7 +32,7 @@ try {
         $message = '发送邮件给用户：' . 'user' .$i;
         echo $message . PHP_EOL;
 
-        $mqExchange->publish($message, 'key.sendMail', null, ['delivery_mode' => 2]);
+        $mqExchange->publish($message, 'key.delay.sendMail', null, ['delivery_mode' => 2]);
     }
 
     $mqConn->disconnect();

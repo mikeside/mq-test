@@ -38,6 +38,18 @@ $config = [
                     'queueFlag' => AMQP_DURABLE,
                     'routingKey' => 'key.sendMail3',
                 ],
+
+                // 延迟队列
+                [
+                    'queueName' => 'direct.delay.sendMail',
+                    'queueFlag' => AMQP_DURABLE,
+                    'routingKey' => 'key.delay.sendMail',
+                    'arguments' => [
+                        'x-message-ttl' => 10000, //消息TTL 10秒后过期
+                        'x-dead-letter-exchange' => 'direct.sendMail', //死信发送的交换机
+                        'x-dead-letter-routing-key' => 'key.sendMail', //死信routeKey
+                    ]
+                ]
             ],
         ],
         [
@@ -114,6 +126,12 @@ try {
                 $mqQueue = new AMQPQueue($mqChannel);
                 $mqQueue->setName($queue['queueName']);
                 $mqQueue->setFlags($queue['queueFlag']);
+
+                // 设置参数
+                if (!empty($queue['arguments'])){
+                    $mqQueue->setArguments($queue['arguments']);
+                }
+
                 $mqQueue->declareQueue();
 
                 // 队列绑定交换机
