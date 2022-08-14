@@ -10,7 +10,7 @@ rabbitmq 实战练习
 
 #### 安装教程
 
-1. composer create-project mikehub/mq-test
+1. composer create-project mikeside/mq-test
 
 #### 使用说明
 
