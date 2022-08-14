@@ -1,8 +1,8 @@
 {
-    "name": "mikehub/mq-test",
+    "name": "mikeside/mq-test",
     "description": "rabbitmq 实战练习 包含初始化交换机，队列、绑定交换机和队列、生产者生产消息、消费者阻塞消费",
     "type": "project",
-    "homepage": "https://gitee.com/mikehub/mq-test",
+    "homepage": "https://github.com/mikeside/mq-test.git",
     "license": "MulanPSL-2.0",
     "keywords": [
         "rabbitmq practice",
